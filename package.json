@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/1259747604/node-project/issues"
   },
-  "homepage": "https://github.com/1259747604/node-project#readme"
+  "homepage": "https://github.com/1259747604/node-project#readme",
+  "dependencies": {
+    "koa": "^2.6.2"
+  }
 }

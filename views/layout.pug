@@ -1,0 +1,31 @@
+doctype html
+html
+    head
+        meta(content="text/html; charset=utf-8")
+        title= title
+        meta(name="Keywords" content="TT")
+        meta(name="description" content="TT")
+        link(rel="shortcut icon" href="http://www.ttistt.com//icon/ttico.ico")
+        link(rel="stylesheet" href="/layui/css/layui.css")
+        link(rel="stylesheet" href="/css/layout.css")
+        block css
+    body
+        #nav
+            .layui-row
+                .layui-col-md9
+                    ul(class="layui-nav" ay-filter="")
+                        each item in ["html","js","css","node","vue"]
+                            li(class="layui-nav-item")
+                                a(href="")= item
+                .layui-col-md3.layui-bg-black.loginreg
+                    a(class="layui-btn layui-bg-gray" href="/user/login") 登录
+                    a(class="layui-btn layui-bg-gray" href="/user/reg") 注册
+        block content
+        #footer.layui-main
+            p tt-blog-2018
+        script(src="/layui/layui.js")
+        script.
+            layui.use('element', function () {
+                let element = layui.element;
+            });
+        block scripts

@@ -1,0 +1,9 @@
+extends layout
+block content
+    h1(style="text-align:center;color:#FF5722")= status
+    h1(style="text-align:center;color:#393D49") 即将跳转至首页
+block scripts
+    script.
+        setTimeout(function () {
+            window.location="/"
+        },1000);

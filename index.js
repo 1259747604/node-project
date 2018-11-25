@@ -3,11 +3,14 @@ const router = require("./routers/routers");
 const views = require("koa-views");
 const static = require("koa-static");
 const log = require("koa-log");
+const koaBody = require("koa-body");
 const {join} = require("path");
+
 const app = new Koa;
 
 /*日志*/
 app.use(log());
+app.use(koaBody());
 /*静态资源*/
 app.use(static(join(__dirname,"public")));
 /*pug文件*/

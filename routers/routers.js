@@ -1,7 +1,11 @@
 const Router = require('koa-router');
+/*登录注册逻辑*/
+const user = require('../control/user');
 
 const router = new Router;
-/*需要参数
+/*
+主页路由
+需要参数
 title
 * */
 router.get('/',async (ctx)=>{
@@ -9,7 +13,8 @@ router.get('/',async (ctx)=>{
         title:"首页",
     })
 });
-/*登录注册*/
+
+/*登录注册页面*/
 router.get(/^\/user\/(?=login|reg)/,async (ctx)=>{
     const show = /login$/.test(ctx.path);
     await ctx.render("./login",{
@@ -17,4 +22,11 @@ router.get(/^\/user\/(?=login|reg)/,async (ctx)=>{
         show
     })
 });
+
+/*登录用户*/
+router.post("/user/login",user.login);
+
+/*注册用户*/
+router.post("/user/reg",user.reg);
+
 module.exports = router;

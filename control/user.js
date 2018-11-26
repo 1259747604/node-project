@@ -78,6 +78,27 @@ exports.login = async (ctx)=>{
         .then(async data=>{
             if(data){
                 /*数据正确*/
+                /*存入cookie*/
+                ctx.cookies.set("username",username,{
+                    domain : "localhost",
+                    maxAge : 3600000,
+                    signed : true,
+                    overwrite : true,
+                    httpOnly : true
+                });
+                ctx.cookies.set("_uid",data[0]._id,{
+                    domain : "localhost",
+                    maxAge : 3600000,
+                    signed : true,
+                    overwrite : true,
+                    httpOnly : true
+                });
+                /*设置session*/
+                ctx.session = {
+                    username,
+                    _uid:data[0]._id
+                };
+                /*跳转页面*/
                 await ctx.render("./transfer",{
                     status:"登录成功"
                 })
@@ -95,4 +116,32 @@ exports.login = async (ctx)=>{
                 status:"登录失败"
             })
         });
+};
+
+/*保持用户登录状态*/
+exports.keepLogin = async (ctx,next)=>{
+    /*如果session设置过*/
+    if(ctx.session.isNew){
+        /*查看是否有cookie*/
+        if(ctx.cookies.get('username')){
+            /*更新session*/
+            ctx.session = {
+                username : ctx.cookies.get('username'),
+                _uid : ctx.cookies.get("_uid")
+            }
+        }
+    }
+    await next();
+};
+
+/*退出用户*/
+exports.logout = async (ctx)=>{
+    ctx.session = null;
+    ctx.cookies.set("username",null,{
+        maxAge:0
+    });
+    ctx.cookies.set("_uid",null,{
+        maxAge:0
+    });
+    ctx.redirect("/");
 };

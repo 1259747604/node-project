@@ -18,8 +18,21 @@ html
                             li(class="layui-nav-item")
                                 a(href="")= item
                 .layui-col-md3.layui-bg-black.loginreg
-                    a(class="layui-btn layui-bg-gray" href="/user/login") 登录
-                    a(class="layui-btn layui-bg-gray" href="/user/reg") 注册
+                    if session && !session.isNew
+                        ul(class="layui-nav")
+                            li(class="layui-nav-item")
+                                a(href="") 个人中心
+                            li(class="layui-nav-item")
+                                a(href="")
+                                    img(src="//t.cn/RCzsdCq" class="layui-nav-img")/ #{session.username}
+                                dl(class="layui-nav-child")
+                                    dd
+                                        a(href="javascript:;") 修改信息
+                                    dd
+                                        a(href="/user/logout") 退出
+                    else
+                        a(class="layui-btn layui-bg-green" href="/user/login") 登录
+                        a(class="layui-btn layui-bg-green" href="/user/reg") 注册
         block content
         #footer.layui-main
             p tt-blog-2018

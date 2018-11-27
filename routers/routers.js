@@ -3,6 +3,8 @@ const Router = require('koa-router');
 const user = require('../control/user');
 /*主页及登录注册页中间件*/
 const page = require("../control/page");
+/*文章中间件*/
+const article = require("../control/article");
 
 const router = new Router;
 /*
@@ -21,5 +23,11 @@ router.post("/user/reg",user.reg);
 
 /*退出用户*/
 router.get("/user/logout",user.logout);
+
+/*跳转至发表页面*/
+router.get("/article",user.keepLogin,article.publishPage);
+
+/*发表文章*/
+router.post("/article",user.keepLogin,article.publishArt);
 
 module.exports = router;

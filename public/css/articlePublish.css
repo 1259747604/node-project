@@ -1,0 +1,14 @@
+@charset "utf-8";
+.articleModule{
+    margin: auto;
+    width: 80%;
+}
+.btnAtr{
+    margin-top: 20px;
+    width: 130px;
+    height: 40px;
+}
+.btnAtr i{
+    display: inline-block;
+    margin-right: 10px!important;
+}

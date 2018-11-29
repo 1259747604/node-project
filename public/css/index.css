@@ -1,0 +1,49 @@
+@charset "utf-8";
+.artList li{
+    position: relative;
+    margin-bottom: 10px;
+    padding: 10px;
+    height: 50px;
+    line-height: 50px;
+}
+.artList li img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    /*background: red;*/
+}
+.artList li span.tips{
+    display: inline-block;
+    margin-left: 10px;
+    margin-top: 8px;
+    vertical-align: top;
+}
+.artList li p{
+    display: inline-block;
+    margin-left: 10px;
+    margin-top: 8px;
+    height: 18px;
+    line-height: 18px;
+    vertical-align: top;
+}
+.artList li span.author{
+    position: absolute;
+    left: 75px;
+    top: 40px;
+    line-height: 20px;
+}
+.time{
+    position: absolute;
+    right: 10px;
+    color: #c0d2cf;
+}
+.numPer{
+    position: absolute;
+    right: 10px;
+    top:43px;
+    height: 20px;
+    line-height: 20px;
+}
+#pageCon{
+    text-align: center;
+}

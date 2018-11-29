@@ -1,4 +1,6 @@
 extends layout
+block css
+    link(rel="stylesheet" href="/css/index.css")
 block content
     #secondnav
         .layui-row(style="margin-top: 20px")
@@ -6,3 +8,19 @@ block content
                 hr(class="layui-bg-blue")
             .layui-col-md3
                 a(href="/article" 	class="layui-btn layui-btn-lg layui-btn-normal" style="margin-left: 150px") 发表文章
+    #list
+        .layui-main(style="background: #ffffff")
+            ul(class="artList")
+                each item in artData
+                    li
+                        img(src=item.author.avatar alt="")
+                        span(class="layui-badge layui-bg-cyan tips")= item.tips
+                        p= item.title
+                        span(class="author") 作者:#{item.author.username}
+                        span(class="time")= item.created.toLocaleString()
+                        .numPer
+                            i(class="layui-icon layui-icon-log")
+                            span 20
+            #pageCon(data-All=AllArtNum data-num=pagenum)
+block scripts
+    script(src="/js/index.js")

@@ -30,4 +30,7 @@ router.get("/article",user.keepLogin,article.publishPage);
 /*发表文章*/
 router.post("/article",user.keepLogin,article.publishArt);
 
+/*文章列表*/
+router.get("/page/:id",user.keepLogin,page.index);
+
 module.exports = router;

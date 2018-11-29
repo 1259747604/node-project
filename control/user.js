@@ -93,10 +93,18 @@ exports.login = async (ctx)=>{
                     overwrite : true,
                     httpOnly : true
                 });
+                ctx.cookies.set("avatar",data[0].avatar,{
+                    domain : "localhost",
+                    maxAge : 3600000,
+                    signed : true,
+                    overwrite : true,
+                    httpOnly : true
+                });
                 /*设置session*/
                 ctx.session = {
                     username,
-                    _uid:data[0]._id
+                    uid:data[0]._id,
+                    avatar:data[0].avatar
                 };
                 /*跳转页面*/
                 await ctx.render("./transfer",{
@@ -127,7 +135,8 @@ exports.keepLogin = async (ctx,next)=>{
             /*更新session*/
             ctx.session = {
                 username : ctx.cookies.get('username'),
-                _uid : ctx.cookies.get("_uid")
+                uid : ctx.cookies.get("_uid"),
+                avatar:ctx.cookies.get("avatar")
             }
         }
     }

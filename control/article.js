@@ -19,7 +19,7 @@ exports.publishArt = async(ctx)=>{
         }
     }
     let data = ctx.request.body;
-    data.author = ctx.session.username;
+    data.author = ctx.session.uid;
     await new Promise((resolve, reject) => {
         new Article(data)
             .save((err,data)=>{
@@ -35,7 +35,7 @@ exports.publishArt = async(ctx)=>{
         })
         .catch(err=>{
             ctx.body = {
-                msg:"发表失败",
+                msg:"请重新发表",
                 status:0
             }
         })

@@ -3,6 +3,42 @@ layui.use(['form','layer', 'layedit', 'element'], function () {
     const form = layui.form;
     const layedit = layui.layedit;
     const layer = layui.layer;
+    /*插件设置*/
+    layedit.set({
+        uploadImage: {
+            url: '',
+            accept: 'image',
+            acceptMime: 'image/*',
+            exts: 'jpg|png|gif|bmp|jpeg',
+            size: '10240'
+        }
+        , uploadVideo: {
+            url: '',
+            accept: 'video',
+            acceptMime: 'video/*',
+            exts: 'mp4|flv|avi|rm|rmvb',
+            size: '20480'
+        }
+        , calldel: {
+            url: '',
+            done: function (data) {
+                console.log(data);
+            }
+        }
+        , devmode: true
+        , codeConfig: {
+            hide: false,
+            default: 'javascript'
+        }
+        , tool: [
+            'html','undo','redo' ,'code', 'strong', 'italic', 'underline', 'del', 'addhr', '|', 'fontFomatt', 'fontBackColor', 'colorpicker', 'face'
+            , '|', 'left', 'center', 'right', '|', 'link', 'unlink'
+            , '|'
+            , 'table'
+            , 'fullScreen'
+        ]
+        , height: '90%'
+    });
     const index = layedit.build('content', {
         height: 500
     });

@@ -36,8 +36,9 @@ layui.use(['form','layer', 'layedit', 'element'], function () {
             , '|'
             , 'table'
             , 'fullScreen'
-        ]
-        , height: '90%'
+        ],
+        /*, height: '90%'*/
+        height: 500
     });
     const index = layedit.build('content', {
         height: 500

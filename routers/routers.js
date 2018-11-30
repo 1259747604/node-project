@@ -5,6 +5,8 @@ const user = require('../control/user');
 const page = require("../control/page");
 /*文章中间件*/
 const article = require("../control/article");
+/*评论*/
+const comment = require("../control/comment");
 
 const router = new Router;
 /*
@@ -32,5 +34,11 @@ router.post("/article",user.keepLogin,article.publishArt);
 
 /*文章列表*/
 router.get("/page/:id",user.keepLogin,page.index);
+
+/*文章详情*/
+router.get("/article/:id",user.keepLogin,article.details);
+
+/*文章评论*/
+router.post("/comment",user.keepLogin,comment.commentList);
 
 module.exports = router;

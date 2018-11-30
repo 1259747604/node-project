@@ -3,10 +3,7 @@ body{
     background: #F2F2F2;
 }
 #footer{
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    margin-left: -570px;
+margin-top: 20px;
 }
 #footer p {
     text-align: center;

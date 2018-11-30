@@ -1,0 +1,69 @@
+@charset "utf-8";
+#detail{
+    margin-top: 20px;
+}
+#detail > div:nth-child(1){
+    padding: 15px;
+    background: #ffffff;
+}
+#detail > div:nth-child(1) >h1{
+    text-align: center;
+    font-weight: bolder;
+}
+#detail > div:nth-child(1) >p.author{
+    margin-top: 10px;
+    text-align: center;
+}
+#detail > div:nth-child(1) >p.time{
+    margin-top: 10px;
+    text-align: center;
+}
+.content{
+    margin-top: 30px;
+}
+/*评论部分*/
+#detail > div:nth-child(2){
+    margin-top: 20px;
+    padding: 15px;
+    background: #ffffff;
+
+}
+.layui-unselect.layui-layedit-tool{
+    display: none;
+}
+.combtn{
+    margin-top: 15px;
+    width: 150px;
+}
+.showcom{
+    margin-top: 20px;
+}
+.showcom ul li{
+    position: relative;
+}
+.showcom ul li div{
+    display: inline-block;
+}
+.showcom ul li div img{
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+.showcom ul li div:nth-child(1){
+    position: absolute;
+    top:0;
+}
+.showcom ul li div:nth-child(2) p{
+    margin-left: 50px;
+    height: 100px;
+    width: 1000px;
+}
+.username{
+    display: inline-block;
+    margin-left: 50px;
+    color: #d2915b;
+}
+.none{
+    color: #c4d294;
+}

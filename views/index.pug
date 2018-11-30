@@ -15,7 +15,8 @@ block content
                     li
                         img(src=item.author.avatar alt="")
                         span(class="layui-badge layui-bg-cyan tips")= item.tips
-                        p= item.title
+                        p
+                            a(href="/article/"+item._id)= item.title
                         span(class="author") 作者:#{item.author.username}
                         span(class="time")= item.created.toLocaleString()
                         .numPer

@@ -1,0 +1,29 @@
+extends layout
+block css
+    link(rel="stylesheet" href="/css/articleDetail.css")
+block content
+    #detail
+        .layui-main
+            h1(data-id=details._id)= details.title
+            p(class="author") 作者:#{details.author.username}
+            p(class="time")= details.created.toLocaleString()
+            .content!= details.content
+        .layui-main
+            .comcontainer
+                textarea(id="comment" style="display: none;")
+                button(class="layui-btn combtn") 评论
+                hr(class="layui-bg-red")
+            .showcom
+                if commentList.length
+                    ul
+                        each item in commentList
+                            li
+                                div
+                                    img(src=item.from.avatar alt="")
+                                div
+                                    span(class="username")= item.from.username
+                                    p= item.comment
+                else
+                    span(class="none") 暂无评论
+block scripts
+    script(src="/js/articleDetail.js")

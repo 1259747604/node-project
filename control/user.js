@@ -100,11 +100,19 @@ exports.login = async (ctx)=>{
                     overwrite : true,
                     httpOnly : true
                 });
+                ctx.cookies.set("role",data[0].role,{
+                    domain : "localhost",
+                    maxAge : 3600000,
+                    signed : true,
+                    overwrite : true,
+                    httpOnly : true
+                });
                 /*设置session*/
                 ctx.session = {
                     username,
                     uid:data[0]._id,
-                    avatar:data[0].avatar
+                    avatar:data[0].avatar,
+                    role:data[0].role
                 };
                 /*跳转页面*/
                 await ctx.render("./transfer",{
@@ -136,7 +144,8 @@ exports.keepLogin = async (ctx,next)=>{
             ctx.session = {
                 username : ctx.cookies.get('username'),
                 uid : ctx.cookies.get("_uid"),
-                avatar:ctx.cookies.get("avatar")
+                avatar:ctx.cookies.get("avatar"),
+                role:ctx.cookies.get("role"),
             }
         }
     }

@@ -36,3 +36,33 @@ app
 app.listen(3000,()=>{
     console.log('服务监听在localhost:3000');
 });
+
+/*需要一个超级管理员*/
+{
+    const {db} = require("./Schema/config");
+    const userSchema = require("./Schema/userSchema");
+    const encrypt = require("./util/encrypt");/*加密模块*/
+
+    /*获得操作集合*/
+    const User = db.model("users",userSchema);
+
+    User.find({username:"admin"})
+        .then(data => {
+            /*存在超级用户*/
+            if(data.length !== 0) return data;
+            /*不存在超级用户
+            * 创建超级用户
+            * */
+            let pwd = "111111";
+            new User({
+                username:"admin",
+                password:encrypt(pwd),
+                role:"666"
+            })
+                .save((err)=>{
+                    if(err)
+                        console.log(err);
+                })
+        })
+        .catch(err => console.log(err));
+}

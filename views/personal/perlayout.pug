@@ -1,0 +1,49 @@
+doctype html
+html
+    head
+        meta(content="text/html; charset=utf-8")
+        title= title
+        meta(name="Keywords" content="TT")
+        meta(name="description" content="TT")
+        link(rel="shortcut icon" href="http://www.ttistt.com//icon/ttico.ico")
+        link(rel="stylesheet" href="/layui/css/layui.css")
+        link(rel="stylesheet" href="/css/layout.css")
+        block css
+    body
+        .layui-layout.layui-layout-admin
+            .layui-header
+                .layui-logo
+                    a(href="/" style="color: inherit").
+                        #[i(class="layui-icon layui-icon-home")]
+                        首页
+                ul(class="layui-nav layui-layout-right")
+                    li(class="layui-nav-item")
+                        if session && !session.isNew
+                            a
+                                img(src= session.avatar,class="layui-nav-img")
+                                span= session.username
+                    li(class="layui-nav-item")
+                        a(href="/user/logout") 退出
+            .layui-side.layui-bg-black
+                .layui-side-scroll
+                    ul(class="layui-nav layui-nav-tree")
+                        if session.role === "666"
+                            li(class=["layui-nav-item",{"layui-nav-itemed":"user" === id}])
+                                a(href="/personal/user") 用户管理
+                        li(class=["layui-nav-item",{"layui-nav-itemed":"article" === id}])
+                            a(href="/personal/article") 文章管理
+                        li(class=["layui-nav-item",{"layui-nav-itemed":"comment" === id}])
+                            a(href="/personal/comment") 评论管理
+                        li(class=["layui-nav-item",{"layui-nav-itemed":"avatar" === id}])
+                            a(href="/personal/avatar") 头像上传
+            .layui-body
+                div(style="padding: 15px;")
+                    block content
+        script(src="/layui/layui.js")
+            script.
+                layui.use('element', function () {
+                    let element = layui.element;
+                    //- 先定义以防之后用到
+                    const $ = layui.$;
+                });
+            block scripts

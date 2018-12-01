@@ -7,6 +7,8 @@ const page = require("../control/page");
 const article = require("../control/article");
 /*评论*/
 const comment = require("../control/comment");
+/*个人中心*/
+const personal = require("../control/personal");
 
 const router = new Router;
 /*
@@ -40,5 +42,8 @@ router.get("/article/:id",user.keepLogin,article.details);
 
 /*文章评论*/
 router.post("/comment",user.keepLogin,comment.commentList);
+
+/*个人中心*/
+router.get('/personal/:id',user.keepLogin,personal.personal);
 
 module.exports = router;

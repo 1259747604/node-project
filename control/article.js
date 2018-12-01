@@ -1,10 +1,12 @@
 const {db} = require("../Schema/config");
 const articleSchema = require("../Schema/articleSchema");
+const commentSchema = require("../Schema/commentSchema");
+const userSchema = require("../Schema/userSchema");
 
 const Article = db.model("articles",articleSchema);
-
-const commentSchema = require("../Schema/commentSchema");
 const Comment = db.model("comments",commentSchema);
+const User = db.model("users",userSchema);
+
 /*跳转至文章编写页面*/
 exports.publishPage = async (ctx)=>{
     await ctx.render("./articlePublish",{
@@ -30,6 +32,12 @@ exports.publishArt = async (ctx)=>{
         new Article(data)
             .save((err,data)=>{
                 if(err)return reject(err);
+                /*用户文章计数*/
+                User.updateOne({_id:data.author},{$inc:{articleNum:1}})
+                    .exec((err)=>{
+                        if(err)
+                            console.log(err);
+                    });
                 resolve(data)
             })
     })

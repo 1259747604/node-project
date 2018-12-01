@@ -1,10 +1,12 @@
 const {db} = require("../Schema/config");
 const commentSchema = require("../Schema/commentSchema");
 const articleSchema = require("../Schema/articleSchema");
+const userSchema = require("../Schema/userSchema");
 
 /*操作数据库*/
 const Comment = db.model("comments",commentSchema);
 const Article = db.model("articles",articleSchema);
+const User = db.model("users",userSchema);
 
 /*评论*/
 exports.commentList = async (ctx)=>{
@@ -26,6 +28,12 @@ exports.commentList = async (ctx)=>{
                 Article.updateOne({_id:data.CArticle},{$inc:{commentNum:1}})
                     .then(data=>data)
                     .catch(err=>console.log("更新计数失败"));
+                /*对应评论者评论总数量计数器*/
+                User.updateOne({_id:data.from},{$inc:{commentNum:1}})
+                    .exec((err)=>{
+                        if(err)
+                            console.log(err);
+                    });
                 resolve(data)
             })
     })

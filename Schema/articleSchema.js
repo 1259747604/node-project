@@ -9,7 +9,8 @@ const article = new Schema(
         },
         tips:String,
         title:String,
-        content:String
+        content:String,
+        commentNum:Number/*评论计数*/
     },
     {
         versionKey:false,

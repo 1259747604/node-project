@@ -21,7 +21,7 @@ block content
                         span(class="time")= item.created.toLocaleString()
                         .numPer
                             i(class="layui-icon layui-icon-log")
-                            span 20
+                            span= item.commentNum
             #pageCon(data-All=AllArtNum data-num=pagenum)
 block scripts
     script(src="/js/index.js")

@@ -21,8 +21,11 @@ exports.publishArt = async (ctx)=>{
             status:0
         }
     }
+    /*需要保存的数据*/
     let data = ctx.request.body;
     data.author = ctx.session.uid;
+    data.commentNum = 0;
+    /*保存*/
     await new Promise((resolve, reject) => {
         new Article(data)
             .save((err,data)=>{

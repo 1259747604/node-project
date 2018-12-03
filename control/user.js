@@ -79,14 +79,15 @@ exports.login = async (ctx)=>{
             if(data){
                 /*数据正确*/
                 /*存入cookie*/
+/*                console.log(typeof username);
                 ctx.cookies.set("username",username,{
                     domain : "localhost",
                     maxAge : 3600000,
                     signed : true,
                     overwrite : true,
                     httpOnly : true
-                });
-                ctx.cookies.set("_uid",data[0]._id,{
+                });*//*当存入为中文是catch到错误*/
+                ctx.cookies.set("uid",data[0]._id,{
                     domain : "localhost",
                     maxAge : 3600000,
                     signed : true,
@@ -94,13 +95,6 @@ exports.login = async (ctx)=>{
                     httpOnly : true
                 });
                 ctx.cookies.set("avatar",data[0].avatar,{
-                    domain : "localhost",
-                    maxAge : 3600000,
-                    signed : true,
-                    overwrite : true,
-                    httpOnly : true
-                });
-                ctx.cookies.set("role",data[0].role,{
                     domain : "localhost",
                     maxAge : 3600000,
                     signed : true,
@@ -127,6 +121,7 @@ exports.login = async (ctx)=>{
             }
         })
         .catch(async err=>{
+            console.log(err);
             /*登录失败*/
             await ctx.render("./transfer",{
                 status:"登录失败"
@@ -139,13 +134,16 @@ exports.keepLogin = async (ctx,next)=>{
     /*如果session设置过*/
     if(ctx.session.isNew){
         /*查看是否有cookie*/
-        if(ctx.cookies.get('username')){
+        if(ctx.cookies.get('uid')){
             /*更新session*/
+            let data = await User.find({_id:ctx.cookies.get('uid')})
+                .then(data=>data)
+                .catch(err=>console.log(err));
             ctx.session = {
-                username : ctx.cookies.get('username'),
+                username : data[0].username,
                 uid : ctx.cookies.get("_uid"),
                 avatar:ctx.cookies.get("avatar"),
-                role:ctx.cookies.get("role"),
+                role:data[0].role,
             }
         }
     }
@@ -155,10 +153,10 @@ exports.keepLogin = async (ctx,next)=>{
 /*退出用户*/
 exports.logout = async (ctx)=>{
     ctx.session = null;
-    ctx.cookies.set("username",null,{
+    ctx.cookies.set("uid",null,{
         maxAge:0
     });
-    ctx.cookies.set("_uid",null,{
+    ctx.cookies.set("avatar",null,{
         maxAge:0
     });
     ctx.redirect("/");

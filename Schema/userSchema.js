@@ -14,7 +14,7 @@ const user = new Schema({
     password:String,
     avatar:{
         type:String,
-        default:"/avatar/1.jpg"
+        default:"/avatar/1.jpeg"
     },
     role:{
         type:String,

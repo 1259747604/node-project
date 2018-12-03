@@ -1,5 +1,11 @@
 const fs = require("fs");
 const {join} = require("path");
+
+const {db} = require("../Schema/config");
+const userSchema = require("../Schema/userSchema");
+
+const User = db.model("users",userSchema);
+/*进入个人中心*/
 exports.personal = async (ctx)=>{
     /*如果用户没有登录*/
     if(ctx.session.isNew){
@@ -32,4 +38,23 @@ exports.personal = async (ctx)=>{
         })
     }
 
+};
+
+/*修改头像更新数据库*/
+exports.updateAvatar = async (ctx)=>{
+    if(ctx.request.files){
+        let file = ctx.request.files;
+        await User.updateOne({_id:ctx.session.uid},{$set:{avatar:`/avatar/${file.file.name}`}})
+            .then(data=>{
+                ctx.session.avatar = `/avatar/${file.file.name}`;
+                ctx.body = {
+                    status:1,
+                }
+            })
+            .catch(err=>{
+                ctx.body = {
+                    status:0,
+                }
+            })
+    }
 };

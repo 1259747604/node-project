@@ -1,1 +1,34 @@
 extends perlayout
+block content
+    button(type="button" class="layui-btn" id="up" name="upavatar").
+        #[i(class="layui-icon") &#xe67c;]
+        上传头像
+block scripts
+    script.
+        layui.use(['layer','upload'], function () {
+            const upload = layui.upload;
+            const layer = layui.layer;
+            //执行实例
+            const uploadInst = upload.render({
+                elem: '#up',
+                url: '/personal/avatar',
+                method: 'post',
+                accept: "images",
+                acceptMime: "image/*",
+                done: function (res) {
+                    //上传完毕回调
+                    if(res.status === 1){
+                        layer.msg("头像更新成功",{
+                            time:1000,
+                            end(){
+                                location.reload();
+                            }
+                        })
+                    }
+                },
+                error: function () {
+                    //请求异常回调
+                    layer.msg("头像更新失败")
+                }
+            });
+        });

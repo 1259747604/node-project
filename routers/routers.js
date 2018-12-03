@@ -9,6 +9,8 @@ const article = require("../control/article");
 const comment = require("../control/comment");
 /*个人中心*/
 const personal = require("../control/personal");
+/*用于头像上传*/
+const upavatar = require("../util/uploadavatar");
 
 const router = new Router;
 /*
@@ -45,5 +47,8 @@ router.post("/comment",user.keepLogin,comment.commentList);
 
 /*个人中心*/
 router.get('/personal/:id',user.keepLogin,personal.personal);
+
+/*后台修改头像*/
+router.post("/personal/avatar",user.keepLogin,upavatar,personal.updateAvatar);
 
 module.exports = router;

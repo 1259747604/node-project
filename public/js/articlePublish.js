@@ -43,6 +43,7 @@ layui.use(['form','layer', 'layedit', 'element'], function () {
     const index = layedit.build('content', {
         height: 500
     });
+    // layedit.setContent(index,"<h1>hello layedit</h1>",false);
     form.on("submit(submitArt)",function (data) {
         const {tips,title} = data.field;
 

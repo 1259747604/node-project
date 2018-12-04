@@ -11,7 +11,9 @@ const app = new Koa;
 
 /*日志*/
 // app.use(log());
-app.use(koaBody());
+app.use(koaBody({
+    strict  : false,
+}));
 /*session*/
 app.keys = ["tt is a good boy"];
 /*配置项*/

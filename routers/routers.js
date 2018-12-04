@@ -51,4 +51,22 @@ router.get('/personal/:id',user.keepLogin,personal.personal);
 /*后台修改头像*/
 router.post("/personal/avatar",user.keepLogin,upavatar,personal.updateAvatar);
 
+/*后台获取用户评论*/
+router.get("/user/comlist",user.keepLogin,personal.getcomlist);
+
+/*后台删除评论*/
+router.delete("/comment/:id",user.keepLogin,personal.delComment);
+
+/*后台获取用户文章列表*/
+router.get("/user/artList",user.keepLogin,personal.getartList);
+
+/*后台删除文章*/
+router.delete("/article/:id",user.keepLogin,personal.delArticle);
+
+/*文章更新页面*/
+router.get("/updateArticle/:id",user.keepLogin,personal.updateArticlePage);
+
+/*文章更新*/
+router.put("/updateArticle",user.keepLogin,personal.updateArticle);
+
 module.exports = router;

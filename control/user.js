@@ -121,7 +121,7 @@ exports.login = async (ctx)=>{
             }
         })
         .catch(async err=>{
-            console.log(err);
+            // console.log(err);
             /*登录失败*/
             await ctx.render("./transfer",{
                 status:"登录失败"

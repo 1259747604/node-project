@@ -1,1 +1,64 @@
 extends perlayout
+block content
+    table(id="artList" lay-filter="it")
+block scripts
+    script.
+        layui.use(['table',"layer"], function () {
+            const table = layui.table;
+            const layer = layui.layer;
+            const $ = layui.$;
+            table.render({
+                elem: '#artList'
+                , url: '/user/artList' //数据接口
+                , method:'get'
+                , page: true //开启分页
+                , cols: [[ //表头
+                    {field: 'tips', title: '文章类型',align:'center',width:'20%',unresize:true}
+                    ,{field: 'title', title: '文章标题',align:'center',unresize:true}
+                    ,{field: 'commentNum ', title: '评论人数',align:'center',unresize:true,templet: function(res){return `${res.commentNum}人`}}
+                    ,{field: 'created', title: '发布时间',align:'center',unresize:true,templet: function(res){return (new Date(res.created)).toLocaleString()}}
+                    ,{field: 'updatedAt', title: '更新时间',align:'center',unresize:true,templet: function(res){return (new Date(res.updatedAt)).toLocaleString()}}
+                    ,{field: 'delandupdate', title: '操作',align:'center',unresize:true,width:175,toolbar:"#bartool"}
+                ]]
+                , parseData: function (res) { //res 即为原始返回的数据
+                    return {
+                        "code": res.status, //解析接口状态
+                        "msg": res.msg || "", //解析提示文本
+                        "count": res.data.length || 0, //解析数据长度
+                        "data": res.data//解析数据列表
+                    };
+                }
+                , response: {
+                    statusCode: 1 //规定成功的状态码，默认：0
+                }
+            });
+            table.on('tool(it)', function(obj){
+                const data = obj.data;
+                const artId = data._id;
+
+                if(obj.event === "update"){
+                    location.href = `/updateArticle/${artId}`
+                }else if(obj.event === "del"){
+
+                    layer.confirm("确认删除?",function () {
+                        $.ajax({
+                            method: "delete",
+                            url: `/article/${artId}`,
+                            success(res) {
+                                if (res.status) {
+                                    layer.msg(res.msg,{
+                                        time:300,
+                                        end(){
+                                            location.reload();
+                                        }
+                                    })
+                                }
+                            }
+                        })
+                    });
+                }
+            });
+        });
+    script(type="text/html")#bartool
+        a( style="height:28px;line-height:28px" lay-event="update").layui-btn.layui-btn-normal 编辑
+        a( style="height:28px;line-height:28px" lay-event="del").layui-btn.layui-btn-danger 删除

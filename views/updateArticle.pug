@@ -1,0 +1,26 @@
+extends layout
+block css
+    link(rel="stylesheet" href="/css/articlePublish.css")
+block content
+    .layui-tab.layui-tab-brief.articleModule
+        ul(class="layui-tab-title")
+            li(class="layui-this") 文章更新
+        .layui-tab-content
+            form(class="layui-form layui-form-pane" action="/article" method="post")
+                .layui-form-item
+                    label(class="layui-form-label") 类别
+                    .layui-input-block
+                        select(name="tips" lay-verify="required")
+                            each item in ["前端","后端","HTML","CSS","JS","NodeJs","Vue","React","Angular"]
+                                option(selected= item===data.tips)= item
+                .layui-form-item
+                    label(class="layui-form-label") 标题
+                    .layui-input-block
+                        input(type="text" name="title" required lay-verify="required" value=data.title placeholder="请输入标题" autocomplete="off" class="layui-input")
+                textarea(id="content" name="content" style="display: none;" data-content=data.content data-artid=data._id)
+                button(class="layui-btn btnAtr" lay-filter="submitArt" lay-submit).
+                    #[i(class="layui-icon layui-icon-release")]
+                    更新
+block scripts
+    script(src="/ace/ace.js")
+    script(src="/js/articleUpdate.js")

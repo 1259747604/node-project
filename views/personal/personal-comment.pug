@@ -1,1 +1,62 @@
 extends perlayout
+block content
+    table(id="comlist" lay-filter="it")
+block scripts
+    script.
+        layui.use(['table',"layer"], function () {
+            const table = layui.table;
+            const layer = layui.layer;
+            const $ = layui.$;
+            table.render({
+                elem: '#comlist'
+                , url: '/user/comlist' //数据接口
+                , method:'get'
+                , page: true //开启分页
+                , cols: [[ //表头
+                    {field: 'CArticle', title: '评论文章',align:'center',width:'20%',unresize:true,templet:function(res){return res.CArticle.title}}
+                    ,{field: 'comment', title: '评论内容',align:'center',unresize:true}
+                    ,{field: 'created', title: '评论时间',align:'center',unresize:true,templet: function(res){return (new Date(res.created)).toLocaleString()}}
+                    ,{field: 'del', title: '操作',align:'center',unresize:true,width:175,toolbar:"#bartool"}
+                ]]
+                , parseData: function (res) { //res 即为原始返回的数据
+                    return {
+                        "code": res.status, //解析接口状态
+                        "msg": "", //解析提示文本
+                        "count": res.data.length, //解析数据长度
+                        "data": res.data//解析数据列表
+                    };
+                }
+                , response: {
+                    statusCode: 1 //规定成功的状态码，默认：0
+                }
+            });
+            table.on('tool(it)', function(obj){
+                if(obj.event !== "del")return
+
+                const data = obj.data;
+                const commentId = data._id
+                const articleId = data.CArticle._id
+
+                layer.confirm("确认删除?",function () {
+                    $.ajax({
+                        url:`/comment/${commentId}`,
+                        method:"delete",
+                        data:{
+                            articleId
+                        },
+                        success(res){
+                            if(res.status){
+                                layer.msg(res.msg,{
+                                    time:100,
+                                    end(){
+                                        location.reload();
+                                    }
+                                })
+                            }
+                        }
+                    })
+                })
+            });
+        });
+    script(type="text/html")#bartool
+        a( style="height:28px;line-height:28px" lay-event="del").layui-btn.layui-btn-danger 删除

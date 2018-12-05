@@ -69,4 +69,16 @@ router.get("/updateArticle/:id",user.keepLogin,personal.updateArticlePage);
 /*文章更新*/
 router.put("/updateArticle",user.keepLogin,personal.updateArticle);
 
+/*获取用户列表*/
+router.get("/user/userList",user.keepLogin,personal.getUserList);
+
+/*删除用户*/
+router.delete("/user/:id",user.keepLogin,personal.delUser);
+
+/*查询用户页面*/
+router.get("/user/username",user.keepLogin,personal.searchUserPage);
+
+/*查询用户*/
+router.get("/user/s",user.keepLogin,personal.searchUser);
+
 module.exports = router;

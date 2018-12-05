@@ -1,1 +1,84 @@
 extends perlayout
+block content
+    if session && session.role === "666"
+        input(id="text" type="text" name="title" required lay-verify="required" placeholder="用户查询" autocomplete="off"
+        style="width:200px;height:30px;outline:none")
+        button(id="btn" style="margin-left:15px;width:70px;height:35px;line-height:35px").layui-btn.layui-btn-normal 查询
+        table(id="userList" lay-filter="it")
+    else
+        h1 权限不足
+block scripts
+    script.
+        layui.use(['table',"layer"], function () {
+            const table = layui.table;
+            const layer = layui.layer;
+            const $ = layui.$;
+
+            //- 查询
+            $("#btn").on("click",function () {
+                const searchText = $("#text").val().trim();
+                if(searchText.length === 0)return layer.msg("请输入查询内容");
+                location.href = `/user/username?search=${searchText}`
+            })
+
+            //- 列表
+            table.render({
+                elem: '#userList'
+                , url: '/user/userList' //数据接口
+                , method:'get'
+                , page: true //开启分页
+                , cols: [[ //表头
+                    {field: 'username', title: '用户名',align:'center',width:'20%',unresize:true}
+                    ,{field: 'articleNum ', title: '发表文章数',align:'center',unresize:true,templet:function (res) {
+                            return res.articleNum
+                        }}
+                    ,{field: 'commentNum ', title: '评论数',align:'center',unresize:true,templet:function (res) {
+                            return res.commentNum
+                        }}
+                    ,{field: 'del', title: '操作',align:'center',unresize:true,width:175,toolbar:"#bartool"}
+                ]]
+                , parseData: function (res) { //res 即为原始返回的数据
+                    let count;
+                    if(res.data.length){
+                        count = res.data.length;
+                    }
+                    else{
+                        count = 0;
+                    }
+                    return {
+                        "code": res.status, //解析接口状态
+                        "msg": "", //解析提示文本
+                        "count": count, //解析数据长度
+                        "data": res.data//解析数据列表
+                    };
+                }
+                , response: {
+                    statusCode: 1 //规定成功的状态码，默认：0
+                }
+            });
+            table.on('tool(it)', function(obj){
+                if(obj.event !== "del")return
+
+                const data = obj.data;
+                const userId = data._id
+
+                layer.confirm("确认删除?",function () {
+                    $.ajax({
+                        url:`/user/${userId}`,
+                        method:"delete",
+                        success(res){
+                            if(res.status){
+                                layer.msg(res.msg,{
+                                    time:100,
+                                    end(){
+                                        location.reload();
+                                    }
+                                })
+                            }
+                        }
+                    })
+                })
+            });
+        });
+    script(type="text/html")#bartool
+        a( style="height:28px;line-height:28px" lay-event="del").layui-btn.layui-btn-danger 删除

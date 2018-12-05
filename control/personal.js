@@ -196,3 +196,70 @@ exports.updateArticle = async (ctx)=>{
             }
         });
 };
+
+/*获取用户列表*/
+exports.getUserList = async (ctx)=>{
+    /*查用户*/
+    await User.find()
+        .then(data=>{
+            ctx.body = {
+                status:1,
+                data,
+                session:ctx.session
+            }
+        })
+        .catch(err=>console.log(err))
+};
+
+/*删除用户*/
+exports.delUser = async (ctx)=>{
+    const id = ctx.params.id;
+    /*删除用户评论*/
+    await Comment.deleteMany({from:id})
+        .exec(err=>err);
+    /*删除用户文章*/
+    await Article.deleteMany({author:id})
+        .exec(err=>err);
+    /*删除用户*/
+    await User.findOneAndDelete({_id:id})
+        .then(data=>{
+            ctx.body = {
+                status:1,
+                msg:"删除成功"
+            }
+        })
+        .catch(err=>{
+            ctx.body = {
+                status:0,
+                msg:"删除失败"
+            }
+        })
+};
+
+/*查询用户页面*/
+exports.searchUserPage = async (ctx)=>{
+    /*获取查询字符串*/
+    let searchText = ctx.request.query.search;
+
+    /*渲染页面*/
+      await ctx.render("searchUsername",{
+          session:ctx.session,
+          searchText,
+      })
+};
+
+/*查询用户*/
+exports.searchUser = async (ctx)=>{
+    /*获取查询字符串*/
+    let searchText = ctx.request.query.search;
+
+    /*查询数据库*/
+     await User.find({username:{$regex:searchText,$options:"$i"}})
+        .then(data=>{
+            ctx.body = {
+                data,
+                status:1
+            }
+        })
+         .catch(err=>console.log(err));
+};

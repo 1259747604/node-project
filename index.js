@@ -5,12 +5,19 @@ const static = require("koa-static");
 const log = require("koa-log");
 const koaBody = require("koa-body");
 const koaSession =require("koa-session");
+const compress = require("koa-compress");
 const {join} = require("path");
 
 const app = new Koa;
 
 /*日志*/
-// app.use(log());
+app.use(log());
+/*资源压缩*/
+app.use(compress({
+    threshold: 2048,
+    flush: require('zlib').Z_SYNC_FLUSH
+}));
+/*koa-body*/
 app.use(koaBody({
     strict  : false,
 }));

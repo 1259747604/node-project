@@ -13,6 +13,11 @@ const personal = require("../control/personal");
 const upavatar = require("../util/uploadavatar");
 
 const router = new Router;
+
+/*测试*/
+router.get('/test',async (ctx) =>{
+    ctx.body = '测试数据'
+});
 /*
 主页路由
 */
